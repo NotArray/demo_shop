@@ -1,17 +1,17 @@
 import 'package:demo_shop/viewmodels/home.dart';
 import 'package:flutter/material.dart';
 
-class HmMoreList extends StatefulWidget {
+class DemoMoreList extends StatefulWidget {
   // 推荐列表
   final List<GoodDetailItem> recommendList;
 
-  HmMoreList({Key? key, required this.recommendList}) : super(key: key);
+  DemoMoreList({Key? key, required this.recommendList}) : super(key: key);
 
   @override
-  _HmMoreListState createState() => _HmMoreListState();
+  _DemoMoreListState createState() => _DemoMoreListState();
 }
 
-class _HmMoreListState extends State<HmMoreList> {
+class _DemoMoreListState extends State<DemoMoreList> {
   Widget _getChildren(int index) {
     return Container(
       child: Column(
