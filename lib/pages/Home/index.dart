@@ -22,8 +22,16 @@ class _HomeViewState extends State<HomeView> {
   Result _inVogueResult = Result(id: "", title: "", subTypes: []);
   // 一站式推荐
   Result _oneStopResult = Result(id: "", title: "", subTypes: []);
-
+  final ScrollController _controller = ScrollController();
+  // 推荐列表
+  List<GoodDetailItem> _recommendList = [];
   //获取滚动容器的内容
+
+  //定义滚动判断数据
+  int _page = 1;
+  bool _isLoading = false;
+  bool _hasMore = true;
+
   List<Widget> _getScrollChildern() {
     return [
       //轮播图组件
@@ -56,7 +64,7 @@ class _HomeViewState extends State<HomeView> {
       ),
 
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      DemoMorelist(),
+      HmMoreList(recommendList: _recommendList), // 无限滚动列表
     ];
   }
 
@@ -68,6 +76,8 @@ class _HomeViewState extends State<HomeView> {
     _getProductList();
     _getInVogueList();
     _getOneStopList();
+    _getRecommendList();
+    _registerEvent();
   }
 
   //获取轮播图列表
@@ -101,8 +111,36 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
   }
 
+  // 获取推荐列表
+  void _getRecommendList() async {
+    if (_isLoading || !_hasMore) return;
+    int requestLimit = _page * 10;
+    _isLoading = true;
+    _recommendList = await getRecommendListAPI({"limit": requestLimit});
+    _isLoading = false;
+    setState(() {});
+    if (_recommendList.length < requestLimit) {
+      _hasMore = false;
+      return;
+    }
+    _page++;
+  }
+
+  //监听滚动事件
+  void _registerEvent() {
+    _controller.addListener(() {
+      if (_controller.position.pixels >=
+          _controller.position.maxScrollExtent - 100) {
+        _getRecommendList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: _getScrollChildern());
+    return CustomScrollView(
+      controller: _controller, //绑定滚动关系
+      slivers: _getScrollChildern(),
+    );
   }
 }
