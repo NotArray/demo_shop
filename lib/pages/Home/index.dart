@@ -1,8 +1,8 @@
 import 'package:demo_shop/api/home.dart';
 import 'package:demo_shop/components/Home/DemoCategory.dart';
-import 'package:demo_shop/components/Home/DemoHot.dart';
 import 'package:demo_shop/components/Home/DemoMoreList.dart';
 import 'package:demo_shop/components/Home/DemoSlider.dart';
+import 'package:demo_shop/components/Home/DemoHot.dart';
 import 'package:demo_shop/components/Home/DemoSuggestion.dart';
 import 'package:demo_shop/viewmodels/home.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,10 @@ class _HomeViewState extends State<HomeView> {
   List<BannerItem> _bannerList = [];
   List<CategoryItem> _categoryList = [];
   Result _productList = Result(id: "", title: "", subTypes: []);
+  // 热榜推荐
+  Result _inVogueResult = Result(id: "", title: "", subTypes: []);
+  // 一站式推荐
+  Result _oneStopResult = Result(id: "", title: "", subTypes: []);
 
   //获取滚动容器的内容
   List<Widget> _getScrollChildern() {
@@ -40,9 +44,13 @@ class _HomeViewState extends State<HomeView> {
           direction: Axis.horizontal,
           children: [
             // Expanded()均分
-            Expanded(child: DemoHot()),
+            Expanded(
+              child: DemoHot(result: _inVogueResult, type: "hot"),
+            ),
             SizedBox(width: 10),
-            Expanded(child: DemoHot()),
+            Expanded(
+              child: DemoHot(result: _oneStopResult, type: "step"),
+            ),
           ],
         ),
       ),
@@ -58,6 +66,8 @@ class _HomeViewState extends State<HomeView> {
     _getBannderList();
     _getCategoryList();
     _getProductList();
+    _getInVogueList();
+    _getOneStopList();
   }
 
   //获取轮播图列表
@@ -76,6 +86,18 @@ class _HomeViewState extends State<HomeView> {
   //获取特惠商品列表
   void _getProductList() async {
     _productList = await getProductListAPI();
+    setState(() {});
+  }
+
+  // 获取热榜推荐列表
+  void _getInVogueList() async {
+    _inVogueResult = await getInVogueListAPI();
+    setState(() {});
+  }
+
+  // 获取一站式推荐列表
+  void _getOneStopList() async {
+    _oneStopResult = await getOneStopListAPI();
     setState(() {});
   }
 

@@ -3,14 +3,13 @@ class BannerItem {
   String id;
   String imgUrl;
   BannerItem({required this.id, required this.imgUrl});
-  //扩展一个工厂函数 用factory声明 用于创建实例对象
-  factory BannerItem.formJSON(Map<String, dynamic> json) {
+  // 修正：formJSON → fromJSON
+  factory BannerItem.fromJSON(Map<String, dynamic> json) {
     return BannerItem(id: json["id"] ?? "", imgUrl: json["imgUrl"] ?? "");
   }
 }
 
 //flutter没有隐式转化
-
 class CategoryItem {
   String id;
   String name;
@@ -22,8 +21,8 @@ class CategoryItem {
     required this.picture,
     this.children,
   });
-  //扩展一个工厂函数 用factory声明 用于创建实例对象
-  factory CategoryItem.formJSON(Map<String, dynamic> json) {
+  // 修正：formJSON → fromJSON
+  factory CategoryItem.fromJSON(Map<String, dynamic> json) {
     return CategoryItem(
       id: json["id"] ?? "",
       name: json["name"] ?? "",
@@ -32,14 +31,13 @@ class CategoryItem {
           ? null
           : List<CategoryItem>.from(
               json["children"].map(
-                (item) => CategoryItem.formJSON(item as Map<String, dynamic>),
+                // 修正内部调用：formJSON → fromJSON
+                (item) => CategoryItem.fromJSON(item as Map<String, dynamic>),
               ),
             ).toList(),
     );
   }
 }
-
-
 
 // 根据特惠推荐.JSON生成的类型
 class GoodsItem {
@@ -59,6 +57,7 @@ class GoodsItem {
     required this.orderNum,
   });
 
+  // 保留正确的 fromJSON（无需改）
   factory GoodsItem.fromJSON(Map<String, dynamic> json) {
     return GoodsItem(
       id: json["id"] ?? "",
@@ -86,6 +85,7 @@ class GoodsItems {
     required this.items,
   });
 
+  // 保留正确的 fromJSON（无需改）
   factory GoodsItems.fromJSON(Map<String, dynamic> json) {
     return GoodsItems(
       counts: json["counts"] ?? 0,
@@ -110,6 +110,7 @@ class SubType {
 
   SubType({required this.id, required this.title, required this.goodsItems});
 
+  // 保留正确的 fromJSON（无需改）
   factory SubType.fromJSON(Map<String, dynamic> json) {
     return SubType(
       id: json["id"] ?? "",
@@ -126,6 +127,7 @@ class Result {
 
   Result({required this.id, required this.title, required this.subTypes});
 
+  // 保留正确的 fromJSON（无需改）
   factory Result.fromJSON(Map<String, dynamic> json) {
     return Result(
       id: json["id"] ?? "",
