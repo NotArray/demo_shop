@@ -1,3 +1,4 @@
+import 'package:demo_shop/api/home.dart';
 import 'package:demo_shop/components/Home/DemoCategory.dart';
 import 'package:demo_shop/components/Home/DemoHot.dart';
 import 'package:demo_shop/components/Home/DemoMoreList.dart';
@@ -14,11 +15,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<BannerItem> _bannerList = [
-    BannerItem(id: "1", imgUrl: "https://picsum.photos/id/26/800/400"),
-    BannerItem(id: "2", imgUrl: "https://picsum.photos/id/96/800/400"),
-    BannerItem(id: "3", imgUrl: "https://picsum.photos/id/235/800/400"),
-  ];
+  List<BannerItem> _bannerList = [];
 
   //获取滚动容器的内容
   List<Widget> _getScrollChildern() {
@@ -51,6 +48,17 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       DemoMorelist(),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannderList();
+  }
+
+  void _getBannderList() async {
+    _bannerList = await getBannerListAPI();
+    setState(() {});
   }
 
   @override

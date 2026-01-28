@@ -93,7 +93,7 @@ class _DemoSliderState extends State<DemoSlider> {
                 decoration: BoxDecoration(
                   color: index == _currentIndex
                       ? Colors.white
-                      : Color.fromRGBO(45, 197, 3, 0.486),
+                      : Color.fromRGBO(0, 0, 0, 0.3),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
