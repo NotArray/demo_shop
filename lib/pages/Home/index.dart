@@ -16,6 +16,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<BannerItem> _bannerList = [];
+  List<CategoryItem> _categoryList = [];
 
   //获取滚动容器的内容
   List<Widget> _getScrollChildern() {
@@ -25,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
       //边距高度组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       //横向分类组件
-      SliverToBoxAdapter(child: DemoCategory()),
+      SliverToBoxAdapter(child: DemoCategory(categoryList: _categoryList)),
 
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
@@ -54,10 +55,19 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _getBannderList();
+    _getCategoryList();
   }
 
+  //获取轮播图列表
   void _getBannderList() async {
     _bannerList = await getBannerListAPI();
+
+    setState(() {});
+  }
+
+  //获取分类列表
+  void _getCategoryList() async {
+    _categoryList = await getCategoryListAPI();
     setState(() {});
   }
 
