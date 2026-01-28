@@ -3,6 +3,7 @@ import 'package:demo_shop/components/Home/DemoHot.dart';
 import 'package:demo_shop/components/Home/DemoMoreList.dart';
 import 'package:demo_shop/components/Home/DemoSlider.dart';
 import 'package:demo_shop/components/Home/DemoSuggestion.dart';
+import 'package:demo_shop/viewmodels/home.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -13,11 +14,17 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final List<BannerItem> _bannerList = [
+    BannerItem(id: "1", imgUrl: "https://picsum.photos/id/26/800/400"),
+    BannerItem(id: "2", imgUrl: "https://picsum.photos/id/96/800/400"),
+    BannerItem(id: "3", imgUrl: "https://picsum.photos/id/235/800/400"),
+  ];
+
   //获取滚动容器的内容
   List<Widget> _getScrollChildern() {
     return [
       //轮播图组件
-      SliverToBoxAdapter(child: DemoSlider()),
+      SliverToBoxAdapter(child: DemoSlider(bannerList: _bannerList)),
       //边距高度组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       //横向分类组件
